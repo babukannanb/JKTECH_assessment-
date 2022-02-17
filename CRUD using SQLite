@@ -1,0 +1,41 @@
+import sqlite3
+from sqlite3 import Error
+
+def sqlconnection():
+    try:
+        conn=sqlite3.connect("babu.db")
+        return conn
+    except Error:
+        print("Error")
+def sqltable(conn):
+    cursorObj=conn.cursor()
+    # cursorObj.execute("CREATE TABLE class(studentid n(5),name char(10),place char(10),PERCENTAGE decimal(10,2));")
+    # cursorObj.executescript('''
+    #  INSERT INTO CLASS VALUES(1,'BABU','HEBBAL',75);
+    #  INSERT INTO CLASS VALUES(2,'FARVEJ','HUBLI',85);
+    #  INSERT INTO CLASS VALUES(3,'JESTINE','KERELA',86);
+    #  INSERT INTO CLASS VALUES(4,'YASHODAR','RAJAJINAGAR',70);
+    # ''')
+    cursorObj.execute("SELECT * FROM class")
+    rows=cursorObj.fetchall()
+    print("creating and reading data")
+    for row in rows:
+        print(row)
+    # cursorObj.execute("UPDATE class SET place='srilanka',PERCENTAGE=90 WHERE studentid=3")
+    cursorObj.execute("SELECT * FROM class")
+    rows = cursorObj.fetchall()
+    print("after updating")
+    for row in rows:
+        print(row)
+    cursorObj.execute("DELETE FROM class WHERE studentid BETWEEN 2 and 3")
+    cursorObj.execute("SELECT * FROM class")
+    rows = cursorObj.fetchall()
+    print("after deleting")
+    for row in rows:
+        print(row)
+
+sqliteconn=sqlconnection()
+sqltable(sqliteconn)
+if(sqliteconn):
+    sqliteconn.close()
+print("sql connection is closed")
